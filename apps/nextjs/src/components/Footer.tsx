@@ -1,12 +1,36 @@
 'use client'
 
 export default function Footer() {
+
+    const linkGroups: { label: string; href: string }[][] = [
+
+        [
+            { label: "FAQ", href: "/faq" },
+            { label: "Help", href: "/help" },
+            { label: "Delivery", href: "/delivery" },
+            { label: "Returns", href: "/returns" },
+        ],
+
+        [
+            { label: "Instagram", href: "#" },
+            { label: "TikTok", href: "#" },
+            { label: "Pinterest", href: "#" },
+            { label: "Facebook", href: "#" },
+        ],
+
+        [
+            { label: "Privacy Policy", href: "/privacy" },
+            { label: "Cookie Policy", href: "/cookies" },
+            { label: "Terms of Use", href: "/terms" },
+        ],
+    ];
+
     return (
         <footer className="bg-[#f5f5f5]">
             <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 xl:px-20 py-10">
                 <div className="flex flex-col md:flex-row gap-8">
 
-                    <section className="order-2 md:order-none md:basis-1/3">
+                    <section className="order-2 md:order-none flex flex-col">
                         <div className="text-[36px] md:text-[44px] leading-tight tracking-tight !leading-[0.85]">
                             <div>Sofa</div>
                             <div>Society</div>
@@ -16,7 +40,23 @@ export default function Footer() {
                         <p className="mt-6 text-xs text-black/60">© {new Date().getFullYear()}, Sofa Society</p>
                     </section>
 
-                    <section className="order-1 md:order-none md:basis-1/3 md:ml-auto">
+                    <section className="order-3 md:order-none flex flex-col md:flex-row items-center mx-auto">
+                        <div className="grid grid-cols-3 gap-x-12 md:gap-x-16 text-sm">
+                            {linkGroups.map((group, i) => (
+                                <ul key={i} className="space-y-2">
+                                    {group.map((item) => (
+                                        <li key={item.label}>
+                                            <a href={item.href} className="hover:underline">
+                                                {item.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section className="order-1 md:order-none flex flex-col">
                         <h3 className="text-3xl md:text-4xl font-semibold tracking-tight">
                             Join our newsletter
                         </h3>
