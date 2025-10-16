@@ -1,10 +1,9 @@
-'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import {Search, ShoppingBag} from 'lucide-react'
+import {ShoppingBag} from 'lucide-react'
 import MobileMenu from '@/components/MobileMenu'
 import LangMenu from './LanguageMenu'
+import SearchMenu from './SearchToggle'
 
 const links = [
   { href: '/about', label: 'About' },
@@ -13,7 +12,6 @@ const links = [
 ]
 
 export default function Header() {
-  const [showSearch, setShowSearch] = useState(false)
 
   return (
     <header className="bg-white sticky top-0 z-50">
@@ -35,23 +33,7 @@ export default function Header() {
             
             <LangMenu />
 
-            <div className="hidden md:flex items-center gap-2">
-              <button
-                className="inline-flex p-1"
-                type="button"
-                onClick={() => setShowSearch((v) => !v)}
-              >
-                <Search size={20} />
-              </button>
-
-              {showSearch && (
-                <input
-                  type="text"
-                  placeholder="Search…"
-                  className="h-9 w-56 px-3 rounded border border-gray-300 outline-none text-sm"
-                />
-              )}
-            </div>
+            <SearchMenu />
 
             <button className="inline-flex p-1" type="button">
               <ShoppingBag size={20} />
