@@ -15,14 +15,14 @@ const links = [
 export default function NavBar() {
 
   return (
-    <header className="bg-white sticky top-0 z-50">
+    <header className="bg-white sticky top-0 z-50 h-[84px]">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 xl:px-20">
-        <div className="flex h-16 items-center justify-between relative">
-          <span className="text-black text-[18px] font-medium tracking-tight">
+        <div className="flex h-[84px] items-center justify-between relative">
+          <span className="text-black body-big font-medium tracking-tight">
             SofaSocietyCo.
           </span>
 
-          <nav className="hidden md:flex items-center gap-8 text-black text-[15px]">
+          <nav className="hidden md:flex items-center gap-8 text-black body">
             {links.map((l) => (
               <Link key={l.href} href={l.href} className="hover:underline">
                 {l.label}

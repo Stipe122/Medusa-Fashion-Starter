@@ -1,12 +1,15 @@
+import { Button } from "@medusajs/ui";
+import { SimpleButton } from "./SimpleButton";
+
 export default function Newsletter({ className = "" }: { className?: string }) {
 
     return (
         <section className={`flex flex-col ${className}`}>
-            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight">
+            <h3 className="h4">
                 Join our newsletter
             </h3>
 
-            <p className="mt-2 text-[15px] text-black/70">
+            <p className="body">
                 We will also send you our discount coupons!
             </p>
 
@@ -14,18 +17,14 @@ export default function Newsletter({ className = "" }: { className?: string }) {
                 <input
                     type="email"
                     placeholder="Your email"
-                    className="h-10 flex-1 rounded-md border border-gray-300 bg-white px-3 text-sm
-                     placeholder-black/40 outline-none focus:border-black"
+                    className="h-10 flex-1 rounded-md border border-gray-300 bg-white px-3 body-small
+                     placeholder-gray-500 outline-none focus:border-black"
                 />
-                <button
-                    type="button"
-                    className="h-10 px-4 rounded-md bg-black text-white text-sm font-medium whitespace-nowrap"
-                >
-                    Subscribe
-                </button>
+                
+                <SimpleButton text={"Subscribe"} />
             </div>
 
-            <p className="mt-3 text-xs leading-relaxed text-black/40 max-w-md">
+            <p className="mt-3 body-small text-gray-500 max-w-md">
                 By subscribing you agree to with our <a href="#" className="underline">Privacy Policy</a> and
                 provide consent to receive updates from our company
             </p>
