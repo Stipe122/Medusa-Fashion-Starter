@@ -17,6 +17,7 @@
     "baseUrl": "./src",
     "paths": {
       "@lib/*": ["lib/*"],
+      "@assets/*": ["./src/assets/*"],
       "@modules/*": ["modules/*"],
       "@pages/*": ["pages/*"]
     },
