@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSwipeable } from "react-swipeable";
 import ArrowButton from "./ArrowButton";
 
 interface IProps {
@@ -7,8 +8,20 @@ interface IProps {
 
 const ProductImageSlider = ({ images }: IProps) => {
 	const [currentSlide, setCurrentSlide] = useState(0);
+	const [isMobile, setIsMobile] = useState(false);
 
 	const maxSlide = images.length - 1;
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 1024);
+		};
+
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
 
 	const nextSlide = () => {
 		setCurrentSlide((prev) => (prev < maxSlide ? prev + 1 : prev));
@@ -18,17 +31,27 @@ const ProductImageSlider = ({ images }: IProps) => {
 		setCurrentSlide((prev) => (prev > 0 ? prev - 1 : prev));
 	};
 
+	const swipeHandlers = useSwipeable({
+		onSwipedLeft: () => nextSlide(),
+		onSwipedRight: () => prevSlide(),
+		trackMouse: isMobile,
+	});
+
 	return (
 		<div className="flex flex-col gap-6 overflow-hidden w-full">
-			<div className="relative top-0 flex gap-4 w-full">
+			<div className="relative top-0 flex gap-4 w-full" {...swipeHandlers}>
 				<div
-					className="flex gap-4 transition-transform duration-500 ease-in-out"
-					style={{ transform: `translateX(-${currentSlide * 475}px)` }}
+					className="flex gap-4 w-full transition-transform duration-500 ease-in-out"
+					style={{
+						transform: isMobile
+							? `translateX(calc(-${currentSlide * 100}% - ${currentSlide * 16}px))`
+							: `translateX(-${currentSlide * 475}px)`,
+					}}
 				>
 					{images.map((image) => (
 						<div
 							key={image.id}
-							className="w-[459px] h-[612px] bg-gray-300 flex items-center justify-center flex-shrink-0"
+							className="w-full lg:w-[459px] h-[490px] lg:h-[612px] bg-gray-300 flex items-center justify-center flex-shrink-0"
 						>
 							<div className="w-full h-full bg-gray-300 flex items-center justify-center">
 								<span className="text-gray-500 text-xl">Image {image.id}</span>
@@ -37,7 +60,7 @@ const ProductImageSlider = ({ images }: IProps) => {
 					))}
 				</div>
 
-				<div className="absolute px-4 top-1/2 w-full -translate-y-1/2 flex flex-row justify-between">
+				<div className="absolute px-4 top-1/2 w-full -translate-y-1/2 hidden lg:flex flex-row justify-between">
 					<ArrowButton
 						direction="left"
 						variant={currentSlide === 0 ? "secondary" : "primary"}

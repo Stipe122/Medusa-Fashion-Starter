@@ -17,7 +17,7 @@ const QuantitySelector = ({ quantity, setQuantity }: IProps) => {
 	};
 
 	return (
-		<div className="border border-gray-200 rounded-base h-12 px-6 py-2 flex items-center justify-center gap-4">
+		<div className="border w-full sm:w-fit border-gray-200 rounded-base h-12 px-6 py-2 flex items-center justify-center gap-4">
 			<button
 				type="button"
 				onClick={decrementQuantity}

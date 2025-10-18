@@ -28,10 +28,10 @@ export default function Footer() {
 			<div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 xl:px-20 py-10">
 				<div className="flex flex-col md:flex-row gap-8">
 					<section className="order-2 md:order-none flex flex-col">
-						<div className="h4 md:h3 font-regular leading-tight tracking-tight !leading-[0.85]">
-							<div>Sofa</div>
-							<div>Society</div>
-							<div>Co.</div>
+						<div className="h4 md:h3 font-regular tracking-tight leading-[0.85]">
+							<p>Sofa</p>
+							<p>Society</p>
+							<p>Co.</p>
 						</div>
 
 						<p className="mt-6 body-small text-black">

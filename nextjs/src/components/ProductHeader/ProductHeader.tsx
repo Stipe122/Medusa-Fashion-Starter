@@ -22,21 +22,23 @@ const ProductHeader = () => {
 
 	return (
 		<div className="w-full h-full bg-white">
-			<div className="flex flex-col sm:flex-row w-full items-start sm:py-16 sm:px-24">
+			<div className="flex flex-col lg:flex-row w-full items-start lg:py-16 lg:px-24">
 				{/* Left side */}
 				<ProductImageSlider images={images} />
 
 				{/* Right side */}
-				<div className="bg-white w-full sm:w-[696px] flex-shrink-0 overflow-hidden">
-					<div className="px-4 sm:pl-[60px] flex flex-col h-full">
-						<div className="flex flex-col gap-8 mb-16">
+				<div className="bg-white w-full lg:w-[696px] flex-shrink-0 overflow-hidden">
+					<div className="px-4 lg:pl-[60px] flex flex-col h-full">
+						<div className="flex flex-col gap-8 mb-8 lg:mb-16">
 							<div className="flex flex-col gap-2">
 								<p className="body text-gray-500">Modern Luxe</p>
-								<h1 className="h3 text-black">Paloma Haven</h1>
+								<h1 className="body-big font-bold text-black lg:h3">
+									Paloma Haven
+								</h1>
 								<p className="body-big text-black">€12000</p>
 							</div>
 
-							<p className="body text-black max-w-[481px] break-words">
+							<p className="body-small lg:body text-gray-500 w-full lg:max-w-[481px] break-words">
 								Minimalistic designs, neutral colors, and high-quality textures.
 								Perfect for those who seek comfort with a clean and understated
 								aesthetic. This collection brings the essence of Scandinavian
@@ -44,8 +46,8 @@ const ProductHeader = () => {
 							</p>
 						</div>
 
-						<div className="flex flex-col gap-6 mb-[96px]">
-							<div className="relative flex flex-col gap-4 w-[243px]">
+						<div className="flex flex-col gap-8 lg:gap-6 mb-8 lg:mb-[96px]">
+							<div className="relative flex flex-col gap-4 w-full lg:w-[243px]">
 								<div className="flex gap-6 items-center body">
 									<p className="body text-black">Materials</p>
 									<p className="body text-gray-500 whitespace-nowrap">
@@ -87,7 +89,7 @@ const ProductHeader = () => {
 						</div>
 
 						<div className="flex flex-col gap-4">
-							<div className="flex gap-4 items-center">
+							<div className="flex flex-col lg:flex-row gap-4 items-center">
 								<QuantitySelector
 									quantity={quantity}
 									setQuantity={setQuantity}
@@ -96,7 +98,9 @@ const ProductHeader = () => {
 								<SimpleButton text="Add to cart" className="w-full h-12 btn" />
 							</div>
 
-							<p className="body text-gray-500">Estimate delivery 2-3 days</p>
+							<p className="body-small lg:body text-gray-500">
+								Estimate delivery 2-3 days
+							</p>
 						</div>
 					</div>
 				</div>
