@@ -11,7 +11,7 @@ const SimpleButton = ({ text, className, ...props }: IProps) => {
 		<button
 			type="button"
 			className={clsx(
-				"h-10 px-4 rounded-md bg-black text-white text-sm font-medium whitespace-nowrap",
+				"flex items-center justify-center px-4 py-2 rounded-md bg-black text-white body-small whitespace-nowrap",
 				className,
 			)}
 			{...props}
