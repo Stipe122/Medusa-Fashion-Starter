@@ -3,8 +3,8 @@ import { useState } from "react";
 import ChevronDownIcon from "shared/svgs/ChevronDownIcon";
 import MinusIcon from "shared/svgs/MinusIcon";
 import PlusIcon from "shared/svgs/PlusIcon";
+import SimpleButton from "../SimpleButton";
 import ArrowButton from "./ArrowButton";
-import { SimpleButton } from "./SimpleButton";
 
 const ProductHeader = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);

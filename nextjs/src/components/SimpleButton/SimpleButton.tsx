@@ -6,7 +6,7 @@ export interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	className?: string;
 }
 
-export const SimpleButton = ({ text, className, ...props }: IProps) => {
+const SimpleButton = ({ text, className, ...props }: IProps) => {
 	return (
 		<button
 			type="button"
@@ -20,3 +20,5 @@ export const SimpleButton = ({ text, className, ...props }: IProps) => {
 		</button>
 	);
 };
+
+export default SimpleButton;
