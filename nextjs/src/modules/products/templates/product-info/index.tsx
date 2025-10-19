@@ -1,4 +1,5 @@
 "use client";
+
 import type { HttpTypes } from "@medusajs/types";
 import ProductCard from "components/ProductCard";
 import ProductHeader from "components/ProductHeader";
@@ -12,10 +13,15 @@ import {
 
 type ProductInfoProps = {
 	product: HttpTypes.StoreProduct;
+	relatedProducts: HttpTypes.StoreProduct[];
 	region: HttpTypes.StoreRegion;
 };
 
-const ProductInfo = ({ product, region }: ProductInfoProps) => {
+const ProductInfo = ({
+	product,
+	relatedProducts,
+	region,
+}: ProductInfoProps) => {
 	return (
 		<div className="w-full h-full flex flex-col gap-[104px] lg:gap-[144px] pb-[104px] lg:pb-[144px]">
 			<ProductHeader product={product} region={region} />
@@ -56,16 +62,31 @@ const ProductInfo = ({ product, region }: ProductInfoProps) => {
 				<h2 className="body-big lg:h2">Related products</h2>
 
 				<div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
-					<ProductCard name="Product 1" category="Category 1" price="100" />
-					<ProductCard
-						name="Product 1"
-						category="Category 1"
-						price="100"
-						salePrice="3000"
-					/>
-					<div className="hidden lg:block">
-						<ProductCard name="Product 1" category="Category 1" price="100" />
-					</div>
+					{relatedProducts.map((product, index) => (
+						<ProductCard
+							key={product.id}
+							index={index}
+							handle={product.handle}
+							image={product.images?.[0]?.url || ""}
+							name={product.title}
+							collectionName={product.collection?.title || ""}
+							currencyCode={
+								product.variants?.[0]?.calculated_price?.currency_code || "eur"
+							}
+							price={
+								product.variants?.[0]?.calculated_price?.calculated_amount?.toString() ||
+								""
+							}
+							salePrice={
+								product.variants?.[0]?.calculated_price?.original_amount?.toString() ||
+								""
+							}
+							isOnSale={
+								product.variants?.[0]?.calculated_price
+									?.is_calculated_price_price_list
+							}
+						/>
+					))}
 				</div>
 			</div>
 		</div>

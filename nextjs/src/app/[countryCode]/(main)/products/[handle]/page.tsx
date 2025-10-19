@@ -96,5 +96,18 @@ export default async function ProductPage(props: Props) {
 		notFound();
 	}
 
-	return <ProductInfo product={pricedProduct} region={region} />;
+	const relatedProducts = await listProducts({
+		countryCode: params.countryCode,
+		queryParams: { limit: 4 },
+	}).then(({ response }) =>
+		response.products.filter((p) => p.id !== pricedProduct.id).slice(0, 3),
+	);
+
+	return (
+		<ProductInfo
+			product={pricedProduct}
+			relatedProducts={relatedProducts}
+			region={region}
+		/>
+	);
 }

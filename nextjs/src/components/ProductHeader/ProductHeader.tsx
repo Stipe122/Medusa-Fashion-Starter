@@ -1,5 +1,6 @@
 "use client";
 import { addToCart } from "@lib/data/cart";
+import { getCurrencySymbol } from "@lib/util/money";
 import type { HttpTypes } from "@medusajs/types";
 import Dropdown from "components/Dropdown";
 import QuantitySelector from "components/QuantitySelector";
@@ -23,15 +24,6 @@ const optionsAsKeymap = (
 	}, {});
 };
 
-const getCurrencySymbol = (currencyCode: string) => {
-	switch (currencyCode) {
-		case "eur":
-			return "€";
-		case "usd":
-			return "$";
-	}
-};
-
 const ProductHeader = ({ product, region }: ProductHeaderProps) => {
 	const [selectedVariant, setSelectedVariant] =
 		useState<HttpTypes.StoreProductVariant | null>(
@@ -39,8 +31,16 @@ const ProductHeader = ({ product, region }: ProductHeaderProps) => {
 		);
 
 	const [quantity, setQuantity] = useState(1);
-	const [selectedColor, setSelectedColor] = useState("Dark Gray");
-	const [selectedMaterial, setSelectedMaterial] = useState("Linen");
+	const [selectedColor, setSelectedColor] = useState(
+		product.variants?.[0]?.options?.find(
+			(option) => option.option?.title === "Color",
+		)?.value || "",
+	);
+	const [selectedMaterial, setSelectedMaterial] = useState(
+		product.variants?.[0]?.options?.find(
+			(option) => option.option?.title === "Material",
+		)?.value || "",
+	);
 
 	const [isAddingToCart, setIsAddingToCart] = useState(false);
 
@@ -99,9 +99,11 @@ const ProductHeader = ({ product, region }: ProductHeaderProps) => {
 					<div className="px-4 lg:pl-[60px] flex flex-col h-full">
 						<div className="flex flex-col gap-8 mb-8 lg:mb-16">
 							<div className="flex flex-col gap-2">
-								<p className="body text-gray-500">Modern Luxe</p>
+								<p className="body text-gray-500">
+									{product.collection?.title}
+								</p>
 								<h3 className="body-big font-bold text-black lg:h3">
-									Paloma Haven
+									{product.title}
 								</h3>
 								<p className="body-big text-black">
 									{getCurrencySymbol(
@@ -114,10 +116,7 @@ const ProductHeader = ({ product, region }: ProductHeaderProps) => {
 							</div>
 
 							<p className="body-small lg:body text-gray-500 w-full lg:max-w-[481px] break-words">
-								Minimalistic designs, neutral colors, and high-quality textures.
-								Perfect for those who seek comfort with a clean and understated
-								aesthetic. This collection brings the essence of Scandinavian
-								elegance to your living room.
+								{product.description}
 							</p>
 						</div>
 
