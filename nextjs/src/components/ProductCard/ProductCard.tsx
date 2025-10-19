@@ -15,7 +15,10 @@ const ProductCard = ({
 	salePrice,
 }: ProductCardProps) => {
 	return (
-		<Link href={"#"} className="flex flex-col gap-4 lg:gap-6 w-full group">
+		<Link
+			href={"#"}
+			className="flex flex-col gap-4 lg:gap-6 w-full cursor-pointer"
+		>
 			<div className="relative w-full h-[286px] bg-gray-300 overflow-hidden"></div>
 
 			<div className="flex flex-col gap-1 relative">
