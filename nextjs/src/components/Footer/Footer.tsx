@@ -39,7 +39,7 @@ export default function Footer() {
 						</p>
 					</section>
 
-					<section className="order-3 md:order-none flex flex-col md:flex-row items-center mx-auto ">
+					<section className="order-3 md:order-none flex flex-col md:flex-row justify-center items-start md:mx-auto">
 						<div className="grid grid-cols-3 gap-x-12 md:gap-x-16 text-sm">
 							{linkGroups.map((group, i) => (
 								<ul key={i} className="space-y-2">

@@ -1,3 +1,4 @@
+import { retrieveCart } from "@lib/data/cart";
 import Link from "next/link";
 import CartIcon from "shared/svgs/CartIcon";
 import SearchToggle from "../SearchToggle";
@@ -10,7 +11,9 @@ const links = [
 	{ href: "/shop", label: "Shop" },
 ];
 
-export default function NavBar() {
+export default async function NavBar() {
+	const cart = await retrieveCart();
+
 	return (
 		<header className="bg-white sticky top-0 z-50 h-[84px]">
 			<div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 xl:px-20">
@@ -32,9 +35,13 @@ export default function NavBar() {
 
 						<SearchToggle />
 
-						<button className="inline-flex p-1" type="button">
+						<Link href="/cart" className="relative">
 							<CartIcon />
-						</button>
+
+							<div className="absolute -top-2 -right-2 bg-black text-white text-xs min-w-5 w-fit h-5 p-1 flex items-center justify-center rounded-full">
+								{cart?.items?.length || 0}
+							</div>
+						</Link>
 
 						<MobileMenu links={links} className="p-1" />
 					</div>
