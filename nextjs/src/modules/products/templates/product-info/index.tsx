@@ -65,7 +65,6 @@ const ProductInfo = ({
 					{relatedProducts.map((product, index) => (
 						<ProductCard
 							key={product.id}
-							index={index}
 							handle={product.handle}
 							image={product.images?.[0]?.url || ""}
 							name={product.title}
@@ -85,6 +84,7 @@ const ProductInfo = ({
 								product.variants?.[0]?.calculated_price
 									?.is_calculated_price_price_list
 							}
+							isHidden={index > 1}
 						/>
 					))}
 				</div>

@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface ProductCardProps {
-	index: number;
 	image: string;
 	handle: string;
 	name: string;
@@ -13,10 +12,10 @@ interface ProductCardProps {
 	price: string;
 	salePrice?: string;
 	isOnSale?: boolean;
+	isHidden?: boolean;
 }
 
 const ProductCard = ({
-	index,
 	image,
 	handle,
 	name,
@@ -25,13 +24,14 @@ const ProductCard = ({
 	price,
 	salePrice,
 	isOnSale,
+	isHidden,
 }: ProductCardProps) => {
 	return (
 		<Link
 			href={`/products/${handle}`}
 			className={clsx(
-				"flex flex-col gap-4 lg:gap-6 w-full cursor-pointer",
-				index === 2 && "hidden lg:block",
+				"flex-col gap-4 lg:gap-6 w-full cursor-pointer",
+				isHidden ? "hidden lg:flex" : "flex",
 			)}
 		>
 			<Image

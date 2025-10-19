@@ -1,15 +1,10 @@
-import { listCollections } from "@lib/data/collections";
-import { getRegion } from "@lib/data/regions";
+import { listProducts } from "@lib/data/products";
 import ProductCard from "components/ProductCard";
-import ProductHeader from "components/ProductHeader";
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import {
-	CollectionInteriorImage,
-	CollectionInteriorImageLarge,
-	CollectionInteriorImageSmall,
-} from "shared/images";
+
+type Props = {
+	params: Promise<{ countryCode: string; handle: string }>;
+};
 
 export const metadata: Metadata = {
 	title: "Medusa Next.js Starter Template",
@@ -17,74 +12,41 @@ export const metadata: Metadata = {
 		"A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
 };
 
-export default async function Home(props: {
-	params: Promise<{ countryCode: string }>;
-}) {
+export default async function Home(props: Props) {
 	const params = await props.params;
 
-	const { countryCode } = params;
-
-	const region = await getRegion(countryCode);
-
-	const { collections } = await listCollections({
-		fields: "id, handle, title",
-	});
-
-	if (!collections || !region) {
-		return null;
-	}
+	const products = await listProducts({
+		countryCode: params.countryCode,
+	}).then(({ response }) => response.products);
 
 	return (
-		<div className="w-full h-full flex flex-col gap-[104px] lg:gap-[144px] pb-[104px] lg:pb-[144px]">
-			<ProductHeader />
-			<div className="flex flex-col gap-8 lg:gap-20 w-full">
-				<div className="flex flex-col gap-8 w-full px-4 lg:px-24">
-					<h2 className="body-big lg:h2">Collection Inspired Interior</h2>
-
-					<Image
-						src={CollectionInteriorImage}
-						alt="Collection Inspired Interior"
-					/>
-				</div>
-				<Image
-					src={CollectionInteriorImageLarge}
-					alt="Collection Inspired Interior Large"
-					className="w-full lg:h-[809px] px-4 lg:px-0"
-				/>
-				<div className="flex flex-col lg:flex-row gap-8 lg:gap-[108px] w-full px-4 lg:px-24">
-					<Image
-						src={CollectionInteriorImageSmall}
-						alt="Collection Inspired Interior Small"
-						className="w-[240px] lg:w-[492px] h-[343px] lg:h-[656px] flex-shrink-0"
-					/>
-					<div className="flex flex-col lg:pt-[80px] gap-8">
-						<h3 className="body-big lg:h3">
-							The Paloma Haven sofa is a masterpiece of minimalism and luxury.
-						</h3>
-						<Link
-							href="#"
-							className="link lg:body-big border-b border-black w-fit"
-						>
-							See more out of Modern Luxe collection
-						</Link>
-					</div>
-				</div>
-			</div>
-			<div className="flex flex-col gap-8 lg:gap-16 w-full px-4 lg:px-24">
-				<h2 className="body-big lg:h2">Related products</h2>
-
-				<div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
-					<ProductCard name="Product 1" category="Category 1" price="100" />
+		<div className="w-full h-full flex flex-col mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10 xl:px-20 gap-[104px] lg:gap-[144px] pb-[104px] lg:pb-[144px]">
+			<h1 className="body-big lg:h1">Home page</h1>
+			<div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
+				{products.map((product) => (
 					<ProductCard
-						name="Product 1"
-						category="Category 1"
-						price="100"
-						salePrice="3000"
+						key={product.id}
+						image={product.images?.[0]?.url || ""}
+						handle={product.handle || ""}
+						currencyCode={
+							product.variants?.[0]?.calculated_price?.currency_code || ""
+						}
+						name={product.title}
+						collectionName={product.collection?.title || ""}
+						price={
+							product.variants?.[0]?.calculated_price?.calculated_amount?.toString() ||
+							""
+						}
+						salePrice={
+							product.variants?.[0]?.calculated_price?.original_amount?.toString() ||
+							""
+						}
+						isOnSale={
+							product.variants?.[0]?.calculated_price
+								?.is_calculated_price_price_list
+						}
 					/>
-					<div className="hidden lg:block">
-						<ProductCard name="Product 1" category="Category 1" price="100" />
-					</div>
-				</div>
+				))}
 			</div>
 		</div>
 	);
