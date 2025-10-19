@@ -72,16 +72,36 @@ const ProductImageSlider = ({ images }: IProps) => {
 						onClick={nextSlide}
 					/>
 				</div>
+
+				{/* Page Indicators - Mobile (inside image) */}
+				<div className="absolute bottom-6 w-full flex justify-center items-center lg:hidden">
+					<div className="flex flex-col gap-[1px] items-start">
+						<div className="flex gap-3 body text-black">
+							{Array.from({ length: maxSlide + 1 }).map((_, index) => (
+								<button
+									type="button"
+									key={`indicator-${index}`}
+									onClick={() => setCurrentSlide(index)}
+									className={`${currentSlide === index ? "font-medium border-b border-black" : "border-transparent border-b"} px-1 hover:font-medium transition-all`}
+								>
+									{index + 1}
+								</button>
+							))}
+						</div>
+					</div>
+				</div>
 			</div>
-			<div className="w-full flex justify-center items-center">
+
+			{/* Page Indicators - Desktop (outside image) */}
+			<div className="hidden lg:flex w-full justify-center items-center">
 				<div className="flex flex-col gap-[1px] items-start">
-					<div className="flex gap-2 body text-black">
+					<div className="flex gap-3 body text-black">
 						{Array.from({ length: maxSlide + 1 }).map((_, index) => (
 							<button
 								type="button"
 								key={`indicator-${index}`}
 								onClick={() => setCurrentSlide(index)}
-								className={`${currentSlide === index ? "font-medium border-b border-black" : "border-transparent border-b"} px-2 hover:font-medium transition-all`}
+								className={`${currentSlide === index ? "font-medium border-b border-black" : "border-transparent border-b"} px-1 hover:font-medium transition-all`}
 							>
 								{index + 1}
 							</button>

@@ -6,7 +6,6 @@ import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge";
 import Footer from "components/Footer";
 import NavBar from "components/Navbar";
-import ProductHeader from "components/ProductHeader";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -27,7 +26,6 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
 	return (
 		<>
 			<NavBar />
-			<ProductHeader />
 			{customer && cart && (
 				<CartMismatchBanner customer={customer} cart={cart} />
 			)}

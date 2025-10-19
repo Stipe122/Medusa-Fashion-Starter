@@ -22,7 +22,7 @@ const ProductHeader = () => {
 
 	return (
 		<div className="w-full h-full bg-white">
-			<div className="flex flex-col lg:flex-row w-full items-start lg:py-16 lg:px-24">
+			<div className="flex flex-col gap-8 lg:gap-0 lg:flex-row w-full items-start lg:py-16 lg:px-24">
 				{/* Left side */}
 				<ProductImageSlider images={images} />
 
@@ -32,9 +32,9 @@ const ProductHeader = () => {
 						<div className="flex flex-col gap-8 mb-8 lg:mb-16">
 							<div className="flex flex-col gap-2">
 								<p className="body text-gray-500">Modern Luxe</p>
-								<h1 className="body-big font-bold text-black lg:h3">
+								<h3 className="body-big font-bold text-black lg:h3">
 									Paloma Haven
-								</h1>
+								</h3>
 								<p className="body-big text-black">€12000</p>
 							</div>
 
