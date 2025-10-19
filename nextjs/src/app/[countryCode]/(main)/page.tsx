@@ -1,5 +1,6 @@
 import { listCollections } from "@lib/data/collections";
 import { getRegion } from "@lib/data/regions";
+import ProductCard from "components/ProductCard";
 import ProductHeader from "components/ProductHeader";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -34,7 +35,7 @@ export default async function Home(props: {
 	}
 
 	return (
-		<div className="w-full h-full flex flex-col gap-[104px] lg:gap-[144px]">
+		<div className="w-full h-full flex flex-col gap-[104px] lg:gap-[144px] pb-[104px] lg:pb-[144px]">
 			<ProductHeader />
 			<div className="flex flex-col gap-8 lg:gap-20 w-full">
 				<div className="flex flex-col gap-8 w-full px-4 lg:px-24">
@@ -66,6 +67,22 @@ export default async function Home(props: {
 						>
 							See more out of Modern Luxe collection
 						</Link>
+					</div>
+				</div>
+			</div>
+			<div className="flex flex-col gap-8 lg:gap-16 w-full px-4 lg:px-24">
+				<h2 className="body-big lg:h2">Related products</h2>
+
+				<div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
+					<ProductCard name="Product 1" category="Category 1" price="100" />
+					<ProductCard
+						name="Product 1"
+						category="Category 1"
+						price="100"
+						salePrice="3000"
+					/>
+					<div className="hidden lg:block">
+						<ProductCard name="Product 1" category="Category 1" price="100" />
 					</div>
 				</div>
 			</div>
