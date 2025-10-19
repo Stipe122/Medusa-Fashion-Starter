@@ -1,16 +1,18 @@
+import type { HttpTypes } from "@medusajs/types";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import ArrowButton from "./ArrowButton";
 
 interface IProps {
-	images: { id: number }[];
+	images: HttpTypes.StoreProductImage[] | null;
 }
 
 const ProductImageSlider = ({ images }: IProps) => {
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [isMobile, setIsMobile] = useState(false);
 
-	const maxSlide = images.length - 1;
+	const maxSlide = images?.length ? images.length - 1 : 0;
 
 	useEffect(() => {
 		const checkMobile = () => {
@@ -48,15 +50,15 @@ const ProductImageSlider = ({ images }: IProps) => {
 							: `translateX(-${currentSlide * 475}px)`,
 					}}
 				>
-					{images.map((image) => (
-						<div
-							key={image.id}
+					{images?.map((image) => (
+						<Image
+							src={image.url}
+							alt={`Product image ${image.id}`}
+							width={459}
+							height={612}
 							className="w-full lg:w-[459px] h-[490px] lg:h-[612px] bg-gray-300 flex items-center justify-center flex-shrink-0"
-						>
-							<div className="w-full h-full bg-gray-300 flex items-center justify-center">
-								<span className="text-gray-500 text-xl">Image {image.id}</span>
-							</div>
-						</div>
+							key={image.id}
+						/>
 					))}
 				</div>
 
@@ -80,7 +82,7 @@ const ProductImageSlider = ({ images }: IProps) => {
 							{Array.from({ length: maxSlide + 1 }).map((_, index) => (
 								<button
 									type="button"
-									key={`indicator-${index}`}
+									key={`indicator-${index.toString()}`}
 									onClick={() => setCurrentSlide(index)}
 									className={`${currentSlide === index ? "font-medium border-b border-black" : "border-transparent border-b"} px-1 hover:font-medium transition-all`}
 								>
@@ -99,7 +101,7 @@ const ProductImageSlider = ({ images }: IProps) => {
 						{Array.from({ length: maxSlide + 1 }).map((_, index) => (
 							<button
 								type="button"
-								key={`indicator-${index}`}
+								key={`indicator-${index.toString()}`}
 								onClick={() => setCurrentSlide(index)}
 								className={`${currentSlide === index ? "font-medium border-b border-black" : "border-transparent border-b"} px-1 hover:font-medium transition-all`}
 							>

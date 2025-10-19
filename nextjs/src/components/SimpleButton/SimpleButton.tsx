@@ -1,12 +1,14 @@
+import Spinner from "@modules/common/icons/spinner";
 import clsx from "clsx";
 import type { ButtonHTMLAttributes } from "react";
 
 export interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	text: string;
 	className?: string;
+	isLoading?: boolean;
 }
 
-const SimpleButton = ({ text, className, ...props }: IProps) => {
+const SimpleButton = ({ text, className, isLoading, ...props }: IProps) => {
 	return (
 		<button
 			type="button"
@@ -16,7 +18,7 @@ const SimpleButton = ({ text, className, ...props }: IProps) => {
 			)}
 			{...props}
 		>
-			{text}
+			{isLoading ? <Spinner /> : text}
 		</button>
 	);
 };

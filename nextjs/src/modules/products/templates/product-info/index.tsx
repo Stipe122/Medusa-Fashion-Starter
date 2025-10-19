@@ -1,40 +1,75 @@
-import { HttpTypes } from "@medusajs/types"
-import { Heading, Text } from "@medusajs/ui"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+"use client";
+import type { HttpTypes } from "@medusajs/types";
+import ProductCard from "components/ProductCard";
+import ProductHeader from "components/ProductHeader";
+import Image from "next/image";
+import Link from "next/link";
+import {
+	CollectionInteriorImage,
+	CollectionInteriorImageLarge,
+	CollectionInteriorImageSmall,
+} from "shared/images";
 
 type ProductInfoProps = {
-  product: HttpTypes.StoreProduct
-}
+	product: HttpTypes.StoreProduct;
+	region: HttpTypes.StoreRegion;
+};
 
-const ProductInfo = ({ product }: ProductInfoProps) => {
-  return (
-    <div id="product-info">
-      <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">
-        {product.collection && (
-          <LocalizedClientLink
-            href={`/collections/${product.collection.handle}`}
-            className="text-medium text-ui-fg-muted hover:text-ui-fg-subtle"
-          >
-            {product.collection.title}
-          </LocalizedClientLink>
-        )}
-        <Heading
-          level="h2"
-          className="text-3xl leading-10 text-ui-fg-base"
-          data-testid="product-title"
-        >
-          {product.title}
-        </Heading>
+const ProductInfo = ({ product, region }: ProductInfoProps) => {
+	return (
+		<div className="w-full h-full flex flex-col gap-[104px] lg:gap-[144px] pb-[104px] lg:pb-[144px]">
+			<ProductHeader product={product} region={region} />
+			<div className="flex flex-col gap-8 lg:gap-20 w-full">
+				<div className="flex flex-col gap-8 w-full px-4 lg:px-24">
+					<h2 className="body-big lg:h2">Collection Inspired Interior</h2>
 
-        <Text
-          className="text-medium text-ui-fg-subtle whitespace-pre-line"
-          data-testid="product-description"
-        >
-          {product.description}
-        </Text>
-      </div>
-    </div>
-  )
-}
+					<Image
+						src={CollectionInteriorImage}
+						alt="Collection Inspired Interior"
+					/>
+				</div>
+				<Image
+					src={CollectionInteriorImageLarge}
+					alt="Collection Inspired Interior Large"
+					className="w-full lg:h-[809px] px-4 lg:px-0"
+				/>
+				<div className="flex flex-col lg:flex-row gap-8 lg:gap-[108px] w-full px-4 lg:px-24">
+					<Image
+						src={CollectionInteriorImageSmall}
+						alt="Collection Inspired Interior Small"
+						className="w-[240px] lg:w-[492px] h-[343px] lg:h-[656px] flex-shrink-0"
+					/>
+					<div className="flex flex-col lg:pt-[80px] gap-8">
+						<h3 className="body-big lg:h3">
+							The Paloma Haven sofa is a masterpiece of minimalism and luxury.
+						</h3>
+						<Link
+							href="#"
+							className="link lg:body-big border-b border-black w-fit"
+						>
+							See more out of Modern Luxe collection
+						</Link>
+					</div>
+				</div>
+			</div>
+			<div className="flex flex-col gap-8 lg:gap-16 w-full px-4 lg:px-24">
+				<h2 className="body-big lg:h2">Related products</h2>
 
-export default ProductInfo
+				<div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
+					<ProductCard name="Product 1" category="Category 1" price="100" />
+					<ProductCard
+						name="Product 1"
+						category="Category 1"
+						price="100"
+						salePrice="3000"
+					/>
+					<div className="hidden lg:block">
+						<ProductCard name="Product 1" category="Category 1" price="100" />
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default ProductInfo;

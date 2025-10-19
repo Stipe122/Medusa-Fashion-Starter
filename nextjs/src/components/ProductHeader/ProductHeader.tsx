@@ -1,30 +1,98 @@
 "use client";
+import { addToCart } from "@lib/data/cart";
+import type { HttpTypes } from "@medusajs/types";
 import Dropdown from "components/Dropdown";
 import QuantitySelector from "components/QuantitySelector";
-import { useState } from "react";
+import { isEqual } from "lodash";
+import { useEffect, useState } from "react";
 import SimpleButton from "../SimpleButton";
+import ColorBox from "./ColorBox";
 import ProductImageSlider from "./ProductImageSlider";
 
-const ProductHeader = () => {
+type ProductHeaderProps = {
+	product: HttpTypes.StoreProduct;
+	region: HttpTypes.StoreRegion;
+};
+
+const optionsAsKeymap = (
+	variantOptions: HttpTypes.StoreProductVariant["options"],
+) => {
+	return variantOptions?.reduce((acc: Record<string, string>, variant: any) => {
+		acc[variant.option.title] = variant.value;
+		return acc;
+	}, {});
+};
+
+const getCurrencySymbol = (currencyCode: string) => {
+	switch (currencyCode) {
+		case "eur":
+			return "€";
+		case "usd":
+			return "$";
+	}
+};
+
+const ProductHeader = ({ product, region }: ProductHeaderProps) => {
+	const [selectedVariant, setSelectedVariant] =
+		useState<HttpTypes.StoreProductVariant | null>(
+			product.variants?.[0] || null,
+		);
+
 	const [quantity, setQuantity] = useState(1);
 	const [selectedColor, setSelectedColor] = useState("Dark Gray");
 	const [selectedMaterial, setSelectedMaterial] = useState("Linen");
 
-	const images = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+	const [isAddingToCart, setIsAddingToCart] = useState(false);
 
-	const materials = ["Linen", "Cotton", "Velvet", "Leather"];
+	useEffect(() => {
+		if (!product.variants || product.variants.length === 0) {
+			return;
+		}
 
-	const colors = [
-		{ name: "Dark Gray", value: "#a2a2a2" },
-		{ name: "Black", value: "#353535" },
-		{ name: "Light Gray", value: "#e8e8e8" },
-	];
+		setSelectedVariant(
+			product.variants.find((v) => {
+				const variantOptions = optionsAsKeymap(v.options);
+				return isEqual(variantOptions, {
+					Color: selectedColor,
+					Material: selectedMaterial,
+				});
+			}) || null,
+		);
+	}, [product.variants, selectedColor, selectedMaterial]);
+
+	const materials =
+		Array.from(
+			new Set(
+				product.variants
+					?.map(
+						(variant: HttpTypes.StoreProductVariant) =>
+							variant.options?.find(
+								(option) => option.option?.title === "Material",
+							)?.value,
+					)
+					.filter((value): value is string => Boolean(value)),
+			),
+		) || [];
+
+	const handleAddToCart = async () => {
+		if (!selectedVariant?.id) return null;
+
+		setIsAddingToCart(true);
+
+		await addToCart({
+			variantId: selectedVariant.id,
+			quantity: quantity,
+			countryCode: region.countries?.[0]?.iso_2 || "us",
+		});
+
+		setIsAddingToCart(false);
+	};
 
 	return (
 		<div className="w-full h-full bg-white">
 			<div className="flex flex-col gap-8 lg:gap-0 lg:flex-row w-full items-start lg:py-16 lg:px-24">
 				{/* Left side */}
-				<ProductImageSlider images={images} />
+				<ProductImageSlider images={product.images} />
 
 				{/* Right side */}
 				<div className="bg-white w-full lg:w-[696px] flex-shrink-0 overflow-hidden">
@@ -35,7 +103,14 @@ const ProductHeader = () => {
 								<h3 className="body-big font-bold text-black lg:h3">
 									Paloma Haven
 								</h3>
-								<p className="body-big text-black">€12000</p>
+								<p className="body-big text-black">
+									{getCurrencySymbol(
+										product.variants?.[0]?.calculated_price?.currency_code ||
+											"eur",
+									)}
+									{product.variants?.[0]?.calculated_price?.calculated_amount ||
+										0}
+								</p>
 							</div>
 
 							<p className="body-small lg:body text-gray-500 w-full lg:max-w-[481px] break-words">
@@ -70,20 +145,24 @@ const ProductHeader = () => {
 									</p>
 								</div>
 								<div className="flex gap-6 items-center">
-									{colors.map((color) => (
-										<div className="flex flex-col items-start" key={color.name}>
-											<button
-												key={color.name}
-												onClick={() => setSelectedColor(color.name)}
-												className="w-8 h-8 rounded-none transition-all mb-2"
-												style={{ backgroundColor: color.value }}
-												aria-label={`Select ${color.name}`}
-											/>
-											{selectedColor === color.name && (
-												<div className="h-[1px] bg-black w-8" />
-											)}
-										</div>
-									))}
+									<ColorBox
+										name={"Dark Gray"}
+										value={"#A2A2A2"}
+										selected={selectedColor === "Dark Gray"}
+										onClick={() => setSelectedColor("Dark Gray")}
+									/>
+									<ColorBox
+										name={"Black"}
+										value={"#353535"}
+										selected={selectedColor === "Black"}
+										onClick={() => setSelectedColor("Black")}
+									/>
+									<ColorBox
+										name={"Light Gray"}
+										value={"#E8E8E8"}
+										selected={selectedColor === "Light Gray"}
+										onClick={() => setSelectedColor("Light Gray")}
+									/>
 								</div>
 							</div>
 						</div>
@@ -95,7 +174,13 @@ const ProductHeader = () => {
 									setQuantity={setQuantity}
 								/>
 
-								<SimpleButton text="Add to cart" className="w-full h-12 btn" />
+								<SimpleButton
+									text="Add to cart"
+									className="w-full h-12 btn"
+									onClick={handleAddToCart}
+									disabled={isAddingToCart}
+									isLoading={isAddingToCart}
+								/>
 							</div>
 
 							<p className="body-small lg:body text-gray-500">
