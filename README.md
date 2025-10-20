@@ -55,3 +55,7 @@ pnpm run dev
 **Challenges:** 
 
 The most challenging part of the project was fetching data from Medusa and handling it efficiently in the frontend. This included understanding how Medusa’s API and SDK structure data, as well as managing multiple product variants and state updates.
+
+## Deployment
+The project is deployed and accessible at the following link:  
+[https://medusa-ecommerce-beryl.vercel.app/dk](https://medusa-ecommerce-beryl.vercel.app/dk)
